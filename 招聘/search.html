@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" >
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="style.css">;
+</head>
+<body>
+	<div id="wrap"></div>
+</body>
+<script type="text/javascript" src="js/data1.js"></script>
+<script type="text/javascript">
+	var n = (window.location.search).split("sh")[1] || (window.location.search).split("xy")[1];
+	var a =  ((window.location.search).split(n)[0]).split("?")[1];
+	var obj = null;
+	console.log(a);
+	if (a == "sh") {
+		obj = aData.sh;
+	} else {
+		obj = aData.xy;
+	}
+
+	var wrap = document.getElementById("wrap");
+	var left = document.createElement("div");
+	var right = document.createElement("div");
+	var clear = document.createElement("div");
+
+	// left
+	var h2 = document.createElement("h2");
+	var ul = document.createElement("ul");
+
+	for (var i = 0; i < 2; i++) {
+	    var li = document.createElement("li");
+	    var a = document.createElement("a");
+	    a.href = "javascript:;";
+	    a.innerHTML = aData.list[i].text;
+	    li.appendChild(a);
+	    ul.appendChild(li);
+  	}
+	left.className = "left";
+	right.className = "right";
+	clear.className = "clear";
+
+	h2.innerHTML = "招贤纳士";
+
+	left.appendChild(h2);
+	left.appendChild(ul);
+
+	// right
+	var title = document.createElement("div");
+	var info = document.createElement("div");
+
+	title.className = "title";
+	info.className = "info content";
+
+		// title
+	var img = document.createElement("img");
+
+	img.src = obj.img;
+
+	title.appendChild(img);
+
+		// info
+	var head = document.createElement("h2");
+	var div = document.createElement("div");
+	var clea = document.createElement("div");
+	var dl = document.createElement("dl");
+	var dl2 = document.createElement("dl");
+	var p = document.createElement("p");
+
+	var dt = document.createElement("dt");
+	var d = document.createElement("dd");
+
+	var dt2 = document.createElement("dt");
+	var dd1 = document.createElement("dd");
+	var dd2 = document.createElement("dd");
+	var dd3 = document.createElement("dd");
+	var dd4 = document.createElement("dd");
+	var dd5 = document.createElement("dd");
+	var dd6 = document.createElement("dd");
+
+	var gs = document.createElement("span");
+	var xz = document.createElement("span");
+	var gz = document.createElement("span");
+	var dd = document.createElement("span");
+	var jy = document.createElement("span");
+	var xl = document.createElement("span");
+	var rs = document.createElement("span");
+	var dy = document.createElement("span");
+	var sj = document.createElement("span");
+	var lx = document.createElement("span");
+
+	head.innerHTML = obj.text[n].zw;
+
+	gs.className = "l";
+	gs.innerHTML = "招聘公司："+obj.text[n].gs+"";
+	xz.innerHTML = "公司性质："+obj.text[n].xz+"";
+	gz.className = "l";
+	gz.innerHTML = "职位性质："+obj.text[n].gz+"";
+	dd.innerHTML = "工作地点："+obj.text[n].dd+"";
+	jy.className = "l";
+	jy.innerHTML = "工作经验："+obj.text[n].jy+"";
+	xl.innerHTML = "学历要求："+obj.text[n].xl+"";
+	rs.className = "l";
+	rs.innerHTML = "招聘人数："+obj.text[n].rs+"";
+	dy.innerHTML = "薪资待遇："+obj.text[n].dy+"";
+	sj.className = "l";
+	sj.innerHTML = "发布时间："+obj.text[n].sj+"";
+	lx.innerHTML = "招聘类型："+obj.text[n].lx+"";
+
+	clea.className = "clear";
+
+	if (aData.sh.text[n].info[1]) {
+		dt.innerHTML = obj.text[n].info[1].t;
+		d.innerHTML = obj.text[n].info[1].l;
+	}
+
+	dt2.innerHTML = obj.text[n].info[0].t;
+	dd1.innerHTML = obj.text[n].info[0].l[0];
+	dd2.innerHTML = obj.text[n].info[0].l[1];
+	dd3.innerHTML = obj.text[n].info[0].l[2];
+	dd4.innerHTML = obj.text[n].info[0].l[3];
+	dd5.innerHTML = obj.text[n].info[0].l[4];
+	dd5.innerHTML = obj.text[n].info[0].l[5];
+
+	p.innerHTML = "有意者请投简历至 " + aData.email;
+
+	dl2.appendChild(dt2);
+	dl2.appendChild(dd1);
+	dl2.appendChild(dd2);
+	dl2.appendChild(dd3);
+	dl2.appendChild(dd4);
+	dl2.appendChild(dd5);
+	dl2.appendChild(dd6);
+
+	dl.appendChild(dt);
+	dl.appendChild(d);
+
+	div.appendChild(gs);
+	div.appendChild(xz);
+	div.appendChild(gz);
+	div.appendChild(dd);
+	div.appendChild(jy);
+	div.appendChild(xl);
+	div.appendChild(rs);
+	div.appendChild(dy);
+	div.appendChild(sj);
+	div.appendChild(lx);
+
+	info.appendChild(head);
+	info.appendChild(div);
+	info.appendChild(clea);
+	info.appendChild(dl);
+	info.appendChild(dl2);
+	info.appendChild(p);
+
+	right.appendChild(title);
+	right.appendChild(info);
+
+	wrap.appendChild(left);
+	wrap.appendChild(right);
+	wrap.appendChild(clear);
+	var lis = document.querySelectorAll("li");
+	var as = document.querySelectorAll("a");
+	console.log(as);
+	if (obj == aData.sh) {
+		lis[0].className = "focus";
+	} else {
+		lis[1].className = "focus";
+	}
+	lis[0].onclick = function() {
+		console.log(1)
+		as[0].href = "zp.html?";
+	};
+	lis[1].onclick = function() {
+		console.log(1)
+		as[1].href = "zp.html?content";
+	};
+</script>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style type="text/css">
+	body,
+	p {
+		margin: 0;
+	}
+	p {
+		margin-left: -3px;
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	#list {
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: none;
+	}
+	.show {
+		display: block !important;
+	}
+	.hide {
+		display: none !important;
+	}
+	.li {
+		width: 75px;
+		height: 30px;
+		border: 1px dashed #000;
+		background: #ccc;
+		line-height: 30px;
+		color: #333;
+		text-align: left;
+		padding-left: 3px;
+	}
+	.hover {
+		color: red;
+		background: #666;
+	}
+	#list #ul1 {
+		margin-top: -12px;
+		display: none;
+	}
+	#list #ul1 li {
+		width: 75px;
+		height: 30px;
+		border: 1px solid #000;
+		background: #eee;
+		color: #000;
+		text-align: left;
+		padding-left: 3px;
+		margin-left: 78px;
+	}
+	#ul1 ul {
+		margin-top: -12px;
+		display: none;
+	}
+	#ul1 ul li {
+		width: 75px;
+		height: 30px;
+		border: 1px solid #000;
+		background: #eee;
+		color: #000;
+		text-align: left;
+		padding-left: 3px;
+		margin-left: 78px;
+	}
+</style>
+</head>
+<body>
+	<ul id="list">
+		<!-- <li class="li">
+			<p>1</p>
+			<ul id="ul1">
+				<li>
+					<p>w</p>
+					<ul>
+						<li>1</li>
+					</ul>
+				</li>
+				<li>
+					<p>z</p>
+					<ul>
+						<li>2</li>
+					</ul>
+				</li>
+				<li>
+					<p>s</p>
+					<ul>
+						<li>3</li>
+					</ul>
+				</li>
+				<li>
+					<p>z</p>
+					<ul>
+						<li>4</li>
+					</ul>
+				</li>
+				<li>
+					<p>l</p>
+					<ul>
+						<li>5</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li class="li">
+			<p>2</p>
+			<ul id="ul1">
+				<li>
+					<p>w</p>
+					<ul>
+						<li>1</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li class="li">
+			<p>3</p>
+			<ul id="ul1">
+				<li>
+					<p>w</p>
+					<ul>
+						<li>1</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li class="li">
+			<p>4</p>
+			<ul id="ul1">
+				<li>
+					<p>w</p>
+					<ul>
+						<li>1</li>
+					</ul>
+				</li>
+			</ul>
+		</li> -->
+	</ul>
+</body>
+<script type="text/javascript" src="data.js"></script>
+<script type="text/javascript">
+(function(d) {
+	var list = d.getElementById("list");
+	var now = 0;
+	var nub = 0;
+	for (var i = 0; i < data.length; i++) {
+		var li = d.createElement("li");
+		var p = d.createElement("p");
+		var ul = d.createElement("ul");
+		var lis = d.createElement("li");
+		var text = d.createElement("p");
+		var uls = d.createElement("ul");
+		ul.id = "ul1";
+		li.className = "li";
+		p.innerHTML = data[i].name;
+		text.innerHTML = data[i].obj.name;
+		for (var j = 0; j < data[i].obj.child.length; j++) {
+			var liZ = d.createElement("li");
+			var liP = d.createElement("p");
+			liP.innerHTML = data[i].obj.child[j].name;
+			liZ.appendChild(liP);
+			uls.appendChild(liZ);
+		}
+		lis.appendChild(text);
+		lis.appendChild(uls);
+		ul.appendChild(lis);
+		li.appendChild(p);
+		li.appendChild(ul);
+		list.appendChild(li);
+	}
+	var uls1 = d.querySelectorAll("ul");
+	var ps1 = d.querySelectorAll("p");
+	d.oncontextmenu = function(e) {
+		list.className = "show";
+		list.style.cssText = "left:"+e.pageX+"px;top:"+e.pageY+"px;";
+		return false;
+	};
+	list.addEventListener("mouseover",fnMover);
+	function fnMover(e) {
+		if (e.target.tagName == "P") {
+			if (now) {
+				now.className = "";
+			}
+			if (e.target.nextElementSibling) {
+				if (now) {
+						if (now.nextElementSibling) {
+							if (now.nextElementSibling.parentNode.parentNode != list) {
+								now.nextElementSibling.parentNode.parentNode.className = "hide";
+								now.parentNode.parentNode.previousElementSibling.className = "";
+							}
+							now.nextElementSibling.className = "hide";
+						} else {
+							now.parentNode.parentNode.parentNode.parentNode.previousElementSibling.className = "";
+							now.parentNode.parentNode.previousElementSibling.className = "";
+							now.parentNode.parentNode.parentNode.parentNode.className = "hide";
+							now.parentNode.parentNode.className = "hide";
+						}
+					if (e.target === now) {
+						e.target.nextElementSibling.parentNode.parentNode.className = "show";
+					}
+				}
+				if (e.target.nextElementSibling.parentNode.parentNode) {
+					if (e.target.nextElementSibling.parentNode.parentNode.className == "hide") {
+						if (now.nextElementSibling) {
+							now.nextElementSibling.className = "show";
+						} else {
+							now.parentNode.parentNode.parentNode.parentNode.className = "show";
+						}
+					}
+				}
+				e.target.nextElementSibling.className = "show";
+			}
+			now = e.target;
+			e.target.className = "hover";
+			if (e.target.parentNode.parentNode.previousElementSibling) {
+				e.target.parentNode.parentNode.previousElementSibling.className = "hover";
+			}
+		}
+	}
+	d.addEventListener("click",function() {
+		for (var i = 0; i < uls1.length; i++) {
+			uls1[i].className = "hide";
+		}
+		for (var i = 0; i < ps1.length; i++) {
+			ps1[i].className = "";
+		}
+		list.className = "hide";
+		now = 0;
+
+	});
+
+})(document);
+</script>
+</html>

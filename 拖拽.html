@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style type="text/css">
+	body {
+		margin: 0;
+	}
+	#wrap {
+		position: relative;
+		width: 1920px;
+		height: 971px;
+		background: skyblue url(img/12.jpg);
+		background-size: 1920px 971px;
+	}
+	#wrap div {
+		position: absolute;
+		width: 60px;
+		height: 60px;
+		top: 0;
+		left: 0;
+		background: red;
+	}
+	#wrap .divC {
+		opacity: .5;
+	}
+	#wrap .move {
+		position: absolute;
+		width: 60px;
+		height: 60px;
+		top: 30%;
+		left: 80%;
+		background: yellowgreen;
+	}
+	#wrap .move div {
+		width: 0;
+		height: 0;
+	}
+</style>
+</head>
+<body>
+	<div id="wrap"></div>
+</body>
+<script type="text/javascript">
+(function(d) {
+	var wrap = d.getElementById("wrap");
+	var move = d.createElement("div");
+	move.className = "move";
+	for (var i = 0; i < 10; i++) {
+		var div = d.createElement("div");
+		div.style.left = 5 + "px";
+		div.style.top = i * 100 + "px";
+		wrap.appendChild(div);
+	}
+	wrap.appendChild(move);
+	var divs = wrap.querySelectorAll("div");
+	var Move = wrap.querySelector(".move");
+	for (var i = 0; i < divs.length; i++) {
+		divs[i].index = i;
+
+		divs[i].addEventListener("mousedown",fnDown);
+			function fnDown(e) {
+				var disX = e.pageX - this.offsetLeft;
+				var disY = e.pageY - this.offsetTop;
+				var divC = this.cloneNode(true);
+				divC.className = "divC";
+				wrap.appendChild(divC);
+				var now = this.index;
+
+			d.addEventListener("mousemove",fnMove);
+			d.addEventListener("mouseup",fnUp);
+				function fnMove(e) {
+					var l = e.pageX - disX;
+					var t = e.pageY - disY;
+
+					if (l < 0) {
+						l = 0;
+					}
+					if (t < 0) {
+						t = 0;
+					}
+					if (l > window.innerWidth - divC.offsetWidth) {
+						l = l > window.innerWidth - divC.offsetWidth
+					}
+					if (t > window.innerHeight - divC.offsetHeight) {
+						t = window.innerHeight - divC.offsetHeight
+					}
+
+					divC.style.left = l + "px";
+					divC.style.top = t + "px";
+				};
+
+				function fnUp(e) {
+					wrap.removeChild(divC);
+					divs[now].style.left = divC.style.left;
+					divs[now].style.top = divC.style.top;
+
+					var l = e.pageX - disX;
+					var t = e.pageY - disY;
+					var r1 = l + divC.offsetWidth;
+					var l1 = divC.offsetLeft;
+					var t1 = divC.offsetTop;
+					var b1 = t + divC.offsetHeight;
+
+					var l2 = Move.offsetLeft;
+					var t2 = Move.offsetTop;
+					var r2 = l2 + Move.offsetWidth;
+					var b2 = t2 + Move.offsetHeight;
+
+					if (r1 < l2 || b1 < t2 || l1 > r2 || t1 > b2) {
+						// Move.style.background = "yeelowgreen";
+					} else {
+						Move.appendChild(divs[now]);
+					}
+					d.removeEventListener("mousemove",fnMove);
+					d.removeEventListener("mouseup",fnUp);
+				}
+					e.preventDefault();
+		};
+	}
+})(document);
+</script>
+</html>

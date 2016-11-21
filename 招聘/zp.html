@@ -1,0 +1,303 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>招贤纳士-社会招聘</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script src="js/data1.js"></script>
+</head>
+<body>
+<div id="wrap"></div>
+<script type="text/javascript">
+// console.log(aData.sh.text[2].info[1].l)
+	var wrap = document.getElementById("wrap");
+
+  // 循环次数
+  var i = 0;
+  var len = 3;
+
+  // 结构生成部分
+  var left = document.createElement("div");
+  var right = document.createElement("div");
+
+  // left  结构
+  var h2 = document.createElement("h2");
+  var ul = document.createElement("ul");
+
+  // left下ul的结构
+  for (i; i < aData.list.length; i++) {
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    a.href = "javascript:;";
+    a.innerHTML = aData.list[i].text;
+    li.appendChild(a);
+    ul.appendChild(li);
+  }
+
+  // right  结构
+  var title = document.createElement("div");
+  var info = document.createElement("div");
+  var pages = document.createElement("div");
+  var clear = document.createElement("div");
+
+  // title
+  var img = document.createElement("img");
+
+  // info
+
+  // 初始化 循环中 i的值为0
+  i = 0;
+
+
+  if (window.location.hash) {
+    window.location.hash = "date=0";    //判断 如果有hash的话 让hash = "date=0" (防止刷新后的bug)
+  }
+
+  function pengge1() {
+    pengge(aData.xy); //传入 校园招聘的数据
+  }
+
+  function pengge(obj) {    // 形参   接受传入的是 校园 或 社会  数据
+    var GG = obj.name;
+    for (i; i < len; i++) {
+      var zp = document.createElement("p");
+      var yq = document.createElement("p");
+      var zw = document.createElement("span");    // 生成结构
+      var rs = document.createElement("span");
+      var sj = document.createElement("span");
+      var xq = document.createElement("a");
+      zp.className = "zp";
+      yq.className = "yq";
+
+      // zp
+      xq.href = "search.html?"+GG+""+i+"";
+      xq.innerHTML = "★ 职位需求：" + obj.text[i].zw;
+      rs.innerHTML = "需求人数：" + obj.text[i].rs + "名";
+      sj.className = "date";
+      sj.innerHTML = obj.text[i].sj;
+      zw.appendChild(xq);
+      zp.appendChild(zw);
+      zp.appendChild(rs);
+      zp.appendChild(sj);
+
+      // yq
+      var ck = document.createElement("a");
+
+      var n = (obj.text[i].info[0].l)[5].slice("融",9);
+      for (var j = 0; j < obj.text[i].info[0].l.length; j++) {    // 解决逗号和省略号问题
+        var now = obj.text[i].info[0].l[j];
+        var tet = now.replace("6.具备2年以上金融IT行业经验，特别是有金融行业相关业务的测试或者开发工作经验者优先。",n);
+        var u = yq.innerHTML += tet;
+      }
+      yq.innerHTML = u + "…";
+
+      ck.href = "search.html?"+GG+""+i+"";
+      ck.innerHTML = "[查看详情]"
+
+      yq.appendChild(ck);
+
+      info.appendChild(zp);
+      info.appendChild(yq);
+    }
+  };
+  //pages
+  var prev = document.createElement("span");
+  var next = document.createElement("span");
+  var p = document.createElement("p");
+    //prev
+  var pr = document.createElement("a");
+  var pre = document.createElement("img")
+
+  pr.href = "javascript:;";
+  pre.src = "img/pre.gif";
+
+    //next
+  var ne = document.createElement("a");
+  var nex = document.createElement("img")
+
+  ne.href = "javascript:;";
+  nex.src = "img/next.gif";
+
+    //p
+  var one = document.createElement("span");
+  var two = document.createElement("span");
+  var three = document.createElement("span");
+
+  var Aone = document.createElement("a");
+  var Atwo = document.createElement("a");
+  var Athree = document.createElement("a");
+
+  one.className = "focus";
+
+  Aone.href = "javascript:;";
+  Atwo.href = "javascript:;";
+  Athree.href = "javascript:;";
+
+  Aone.innerHTML = "1";
+  Atwo.innerHTML = "2";
+  Athree.innerHTML = "3";
+
+  prev.className = "prev";
+  next.className = "next";
+
+  one.appendChild(Aone);
+  two.appendChild(Atwo);
+  three.appendChild(Athree);
+
+  p.appendChild(one);
+  p.appendChild(two);
+  p.appendChild(three);
+
+  ne.appendChild(nex);
+  next.appendChild(ne)
+
+  pr.appendChild(pre);
+  prev.appendChild(pr);
+
+  pages.appendChild(prev);
+  pages.appendChild(next);
+  pages.appendChild(p);
+
+  title.className = "title";
+  info.className = "info";
+  pages.className = "pages";
+
+  function wocuole() {
+    pic(aData.xy.img);    // 传入校园图片
+  };
+
+  function pic(p) {
+    img.src = p;
+  }
+
+  h2.innerHTML = "招贤纳士";
+  left.className = "left";
+  right.className = "right";
+  clear.className = "clear";
+
+  left.appendChild(h2);
+  left.appendChild(ul);
+
+  title.appendChild(img);
+
+  right.appendChild(title);
+  right.appendChild(info);
+  right.appendChild(pages);
+
+  wrap.appendChild(left);
+  wrap.appendChild(right);
+  wrap.appendChild(clear);
+
+  if (window.location.search == "?content") {   // 判断  如果search为"?content"
+    li.className = "focus";   // 让当前点击的标签className 变为 "focus"
+    p.removeChild(three);  // 删除p标签下的第3个span
+    pengge1();
+    wocuole();  // 执行  校园图片的数据
+  } else {
+    pic(aData.sh.img);  // 传入sh的img或xy的img
+    pengge(aData.sh);   // 传入 社会招聘的数据
+    li.previousElementSibling.className = "focus";  // 当前search不为"?content"   让当前标签的上一个兄弟级className变为focus
+  }
+
+  var ul1 = wrap.querySelector("ul");
+  var lis = ul1.children;
+
+  lis[0].onclick = function() {
+    window.location.search = "?";  // 点击lis[0]的话 search 变为 "?" (社会招聘)
+  };
+
+  lis[1].onclick = function() {
+    window.location.search = "?content";  // 点击lis[1]的话 search 变为 "?content"  (校园招聘)
+  };
+
+  var pages = wrap.querySelector(".pages");
+  var pageP = pages.querySelector("p");
+  var P = pages.children[0];
+  var N = pages.children[1];
+  var nub = pageP.children;
+  var now = 0;
+
+  nub[0].onclick = function() {   // 点击nub[0]的时候 hash变为 "data=0"  (点击1)
+    window.location.hash = "data=0";
+    foR();  // 清空所有nub的classNa
+    this.className = "focus"; // 让当前的classNa变为focus
+    now = this.index;
+  };
+  nub[1].onclick = function() {   // 点击nub[1]的时候 hash变为 "data=1"  (点击2)
+    window.location.hash = "data=1";
+     foR();
+     this.className = "focus";
+     now = this.index;
+  };
+  if (nub[2]) {
+    nub[2].onclick = function() {  // 点击nub[2]的时候 hash变为 "data=2"  (点击3)
+      window.location.hash = "data=2";
+      foR();
+      this.className = "focus";
+      now = this.index;
+    };
+  }
+  P.onclick = function() {  // 点击上一个
+    now--;
+    if (now < 0) {
+      now = nub.length - 1;
+    }
+    foR();
+    nub[now].className = "focus";
+    window.location.hash = "date="+now+"";
+  }
+  N.onclick = function() {  // 点击下一个
+    now++;
+    if (now > nub.length - 1) {
+      now = 0;
+    }
+    foR();
+    nub[now].className = "focus";
+    window.location.hash = "date="+now+"";
+  };
+  window.onhashchange = function() {  // 哈希改变后执行
+    var hash = window.location.hash.split("=")[1];  // 截取到date=后的数字
+
+    if (hash == 0) {    // 判断 哈希等于0后
+      i = 0;
+      len = 3;
+      info.innerHTML = "";
+      if (window.location.search == "?content") { // 判断当前search == ?content 执行 pengge(aData.xy);  否则执行 pengge(aData.sh);
+        pengge(aData.xy);
+      } else {
+        pengge(aData.sh);
+      }
+    } else if (hash == 1){
+      i = 3;
+      len = 6;
+      info.innerHTML = "";
+      if (window.location.search == "?content") {
+        pengge(aData.xy);
+      } else {
+        pengge(aData.sh);
+      }
+    } else {
+      i = 6;
+      len = 7;
+      info.innerHTML = "";
+       if (window.location.search == "?content") {
+        pengge(aData.xy);
+      } else {
+        pengge(aData.sh);
+      }
+    }
+  };
+
+  function foR() {    // 循环nub
+    for (var i = 0; i < nub.length; i++) {
+      nub[i].index = i;
+      nub[i].className = "";
+    }
+  };
+</script>
+</body>
+</html>
+
+
+
+
